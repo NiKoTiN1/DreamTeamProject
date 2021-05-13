@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DreamTeamProject.Data\DreamTeamProject.Data.csproj" />
+    <ProjectReference Include="..\DreamTeamProject.ViewModels\DreamTeamProject.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>
