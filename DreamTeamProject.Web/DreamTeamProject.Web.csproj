@@ -4,4 +4,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DreamTeamProject.Data\DreamTeamProject.Data.csproj" />
+    <ProjectReference Include="..\DreamTeamProject.Services\DreamTeamProject.Services.csproj" />
+    <ProjectReference Include="..\DreamTeamProject.ViewModels\DreamTeamProject.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Account\" />
+  </ItemGroup>
+
 </Project>
