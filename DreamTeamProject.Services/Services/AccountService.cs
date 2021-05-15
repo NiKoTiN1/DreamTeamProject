@@ -30,7 +30,7 @@ namespace DreamTeamProject.Services.Services
             return loginResult.OutElements.SingleOrDefault(element => true).ToString();
         }
 
-        public User GetUser(int userId)
+        public Customer GetUser(int userId)
         {
             DbOutput dbOut = this.accountRepository.GetUser(userId);
             if (dbOut.Result == DbResult.Faild)
@@ -38,14 +38,22 @@ namespace DreamTeamProject.Services.Services
                 Console.WriteLine(dbOut.ErrorMessage);
                 return null;
             }
-            var user = new User()
+            var user = new Customer()
             {
-                // code here
+                UserId = Convert.ToInt32(dbOut.OutElements.ElementAt(0)),
+                Email = dbOut.OutElements.ElementAt(1).ToString(),
+                SurName = dbOut.OutElements.ElementAt(2).ToString(),
+                Phone = dbOut.OutElements.ElementAt(3).ToString(),
+                UserRole = new Role()
+                {
+                    Id = Convert.ToInt32(dbOut.OutElements.ElementAt(4)),
+                    Name = dbOut.OutElements.ElementAt(5).ToString()
+                }
             };
             return user;
         }
 
-        public string Registration(string surname, string password)
+        public string Registration(Customer customer, string password)
         {
             if (string.IsNullOrEmpty(password))
             {
@@ -55,12 +63,24 @@ namespace DreamTeamProject.Services.Services
             {
                 return "Password length cannot be less then 8";
             }
-            DbOutput registerResult = this.accountRepository.Registration(surname, password);
+            DbOutput registerResult = this.accountRepository.Registration(customer, password);
             if (registerResult.Result == DbResult.Faild)
             {
                 return registerResult.ErrorMessage = registerResult.ErrorMessage.Substring(0, 1).ToUpper() + registerResult.ErrorMessage.Substring(1, registerResult.ErrorMessage.Length - 1).ToLower();
             }
             return null;
+        }
+
+        public Customer ChangeRole(int userId, int roleId)
+        {
+            DbOutput dbOut = this.accountRepository.ChangeRole(userId, roleId);
+            if (dbOut.Result == DbResult.Faild)
+            {
+                Console.WriteLine(dbOut.ErrorMessage);
+                return null;
+            }
+            var user = this.GetUser(userId);
+            return user;
         }
     }
 }
