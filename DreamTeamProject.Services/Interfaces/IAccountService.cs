@@ -7,8 +7,9 @@ namespace DreamTeamProject.Services.Interfaces
 {
     public interface IAccountService
     {
-        public User GetUser(int userId);
+        public Customer GetUser(int userId);
         public string Login(string surname, string password);
-        public string Registration(string surname, string password);
+        public string Registration(Customer customer, string password);
+        public Customer ChangeRole(int userId, int roleId);
     }
 }

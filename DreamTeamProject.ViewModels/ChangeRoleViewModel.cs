@@ -4,9 +4,9 @@ using System.Text;
 
 namespace DreamTeamProject.ViewModels
 {
-    public class LoginViewModel
+    public class ChangeRoleViewModel
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public int Id { get; set; }
+        public int RoleId { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -28,12 +29,12 @@ namespace DreamTeamProject.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegistrationPost([FromForm] LoginViewModel vm)
+        public IActionResult RegistrationPost([FromForm] RegisterViewModel vm)
         {
-            string registationResult = this.accountService.Registration(vm.Surname, vm.Password);
+            string registationResult = this.accountService.Registration(vm.Customer, vm.Password);
             if (registationResult != null)
             {
-                return BadRequest(registationResult);
+                return RedirectToAction("Registration");
             }
             return Ok();
         }
@@ -48,7 +49,7 @@ namespace DreamTeamProject.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginPost([FromForm] LoginViewModel vm)
         {
-            string resultLogin = this.accountService.Login(vm.Surname, vm.Password);
+            string resultLogin = this.accountService.Login(vm.Email, vm.Password);
             try
             {
                 int userId = Convert.ToInt32(resultLogin);
@@ -76,6 +77,31 @@ namespace DreamTeamProject.Web.Controllers
             await HttpContext.SignOutAsync();
             HttpContext.Response.Cookies.Delete(".AspNetCore.Cookies");
             return Ok();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        [Route("all-users")]
+        public IActionResult GetAllUsers()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult ChangeRole([FromForm] ChangeRoleViewModel model)
+        {
+            Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
+            if (userIdClaim.Value == null)
+            {
+                return RedirectToAction("Login");
+            }
+            var newCustomer = this.accountService.ChangeRole(model.Id, model.RoleId);
+            if(newCustomer == null)
+            {
+                return RedirectToAction("All", "Book");
+            }
+            return RedirectToAction("GetAllUsers");
         }
     }
 }
