@@ -1,0 +1,47 @@
+﻿@model Book
+
+<div>
+    <p>
+        Информация о книге:
+    </p>
+    @if (Model != null)
+    {
+        <p>
+            Номер книги: @Model.Id
+        </p>
+        <p>
+            Навание книги: @Model.Name
+        </p>
+        <p>
+            Количество страниц: @Model.NumberOfPages
+        </p>
+        <p>
+            Стоимость: @Model.Price
+        </p>
+        <p>
+            Информация об издателе:
+        </p>
+        @if (Model.PublishingHouse != null)
+        {
+            <p>
+                Номер издателя: @Model.PublishingHouse.Id
+            </p>
+            <p>
+                Название издателя: @Model.PublishingHouse.Name
+            </p>
+            <p>
+                E-mail: @Model.PublishingHouse.Email
+            </p>
+            <p>
+                Адрес: @Model.PublishingHouse.Address
+            </p>
+        }
+        <form>
+            <p>
+                Оставить комментарий:
+            </p>
+            <textarea></textarea>
+            <input type="submit" value="Отправить"/>
+        </form>
+    }
+</div>

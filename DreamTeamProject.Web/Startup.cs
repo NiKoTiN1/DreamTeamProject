@@ -22,7 +22,8 @@ namespace DreamTeamProject
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -34,7 +35,6 @@ namespace DreamTeamProject
             services.AddTransient<IAccountReposetory, AccountReposetory>();
             services.AddTransient<IBookService, BookService>();
             services.AddTransient<IBookReposetory, BookReposetory>();
-            services.AddControllersWithViews();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -58,6 +58,10 @@ namespace DreamTeamProject
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
                 endpoints.MapControllers();
             });
         }

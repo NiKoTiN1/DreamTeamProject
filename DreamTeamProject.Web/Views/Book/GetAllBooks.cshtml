@@ -1,1 +1,45 @@
 ﻿@model List<Book>
+<p>Книжный каталог</p>
+
+<table class="table sticky-table">
+    <thead>
+        <tr>
+            <th class="th-header">
+                №
+            </th>
+            <th class="th-header">
+                Название
+            </th>
+            <th class="th-header">
+                Кол-во страниц
+            </th>
+            <th class="th-header">
+                Стоимость
+            <th class="th-header">
+                Издатель
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Book book in Model)
+        {
+        <tr class="table-row">
+            <th style="vertical-align: middle;">
+                <a asp-controller="Book" asp-action="BookDescription" asp-route-bookId="@book.Id">@book.Id</a>
+            </th>
+            <th style="vertical-align: middle;">
+                @book.Name
+            </th>
+            <th style="vertical-align: middle;">
+                @book.NumberOfPages
+            </th>
+            <th style="vertical-align: middle;">
+                @book.Price
+            </th>
+            <th style="vertical-align: middle;">
+                @book.PublishingHouse.Name
+            </th>
+        </tr>
+        }
+    </tbody>
+</table>

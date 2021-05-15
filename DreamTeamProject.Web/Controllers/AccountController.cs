@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace DreamTeamProject.Web.Controllers
 {
+    [Route("{controllerName}")]
     public class AccountController : Controller
     {
         public AccountController(IAccountService accountService)
@@ -20,14 +21,13 @@ namespace DreamTeamProject.Web.Controllers
         }
         private readonly IAccountService accountService;
 
-        [HttpGet]
-        [Route("register")]
+        [HttpGet("register")]
         public IActionResult Registration()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public IActionResult RegistrationPost([FromForm] LoginViewModel vm)
         {
             string registationResult = this.accountService.Registration(vm.Surname, vm.Password);
@@ -38,27 +38,30 @@ namespace DreamTeamProject.Web.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        [Route("login")]
-        public IActionResult Login()
+        [HttpGet("login")]
+        public ActionResult Login()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<IActionResult> LoginPost([FromForm] LoginViewModel vm)
         {
-            string resultLogin = this.accountService.Login(vm.Surname, vm.Password);
+            //string resultLogin = this.accountService.Login(vm.Surname, vm.Password);
+            string resultLogin = "123";
             try
             {
                 int userId = Convert.ToInt32(resultLogin);
+                string userRole = "customer";
+
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, userId.ToString())
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, userId.ToString()),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole)
                 };
                 var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
-                User user = this.accountService.GetUser(userId);
+                //User user = this.accountService.GetUser(userId);
                 return RedirectToAction("AllBooks", "Books");
             }
             catch (Exception ex)
@@ -66,6 +69,14 @@ namespace DreamTeamProject.Web.Controllers
                 Console.WriteLine(ex.Message);
                 return BadRequest(resultLogin);
             }
+        }
+
+        [HttpGet("test")]
+        [Authorize]
+        public IActionResult Test()
+        {
+            var a = HttpContext;
+            return Ok("test");
         }
 
         [HttpGet]
