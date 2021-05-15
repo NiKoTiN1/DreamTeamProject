@@ -10,8 +10,4 @@
     <ProjectReference Include="..\DreamTeamProject.ViewModels\DreamTeamProject.ViewModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Account\" />
-  </ItemGroup>
-
 </Project>
