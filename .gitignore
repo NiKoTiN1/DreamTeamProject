@@ -34,6 +34,6 @@ msbuild.err
 msbuild.wrn
 
 # Custom
-wwwroot/
+
 # Visual Studio 2015
 .vs/
