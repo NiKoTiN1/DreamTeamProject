@@ -182,5 +182,33 @@ namespace DreamTeamProject.Services.Services
             var dbResult = this.bookReposetory.AddPubHouse(name);
             return dbResult.Result == DbResult.Successed;
         }
+
+        public Book GetBook(int bookId)
+        {
+            var dbResult = this.bookReposetory.GetBook(bookId);
+            Book book = new Book()
+            {
+                Id = Convert.ToInt32(dbResult.OutElements.ElementAt(0)),
+                Name = dbResult.OutElements.ElementAt(1).ToString(),
+                NumberOfPages = Convert.ToInt32(dbResult.OutElements.ElementAt(2)),
+                Price = Convert.ToInt32(dbResult.OutElements.ElementAt(3)),
+                BookCount = Convert.ToInt32(dbResult.OutElements.ElementAt(4)),
+                Author = new Author()
+                {
+                    SurName = dbResult.OutElements.ElementAt(5).ToString(),
+                    Name = dbResult.OutElements.ElementAt(6).ToString(),
+                    MiddleName = dbResult.OutElements.ElementAt(7).ToString(),
+                },
+                PublishingHouse = new PublishingHouse()
+                {
+                    Name = dbResult.OutElements.ElementAt(8).ToString()
+                },
+                Genere = new Genere()
+                {
+                    Name = dbResult.OutElements.ElementAt(9).ToString()
+                }
+            };
+            return book;
+        }
     }
 }
