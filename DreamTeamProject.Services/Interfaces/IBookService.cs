@@ -13,5 +13,6 @@ namespace DreamTeamProject.Services.Interfaces
         public List<Book> GetBookByGenere(string genereName);
         public bool AddBook(Book book);
         public bool AddGenere(string genereName);
+        public bool AddPubHouse(string name);
     }
 }

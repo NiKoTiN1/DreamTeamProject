@@ -176,5 +176,11 @@ namespace DreamTeamProject.Services.Services
             var dbResult = this.bookReposetory.AddGenere(genereName);
             return dbResult.Result == DbResult.Successed;
         }
+
+        public bool AddPubHouse(string name)
+        {
+            var dbResult = this.bookReposetory.AddPubHouse(name);
+            return dbResult.Result == DbResult.Successed;
+        }
     }
 }

@@ -34,6 +34,9 @@ namespace DreamTeamProject
             services.AddTransient<IAccountReposetory, AccountReposetory>();
             services.AddTransient<IBookService, BookService>();
             services.AddTransient<IBookReposetory, BookReposetory>();
+            services.AddTransient<IOrderReposetory, OrderReposetory>();
+            services.AddTransient<IOrderService, OrderService>();
+
             services.AddControllersWithViews();
         }
 
