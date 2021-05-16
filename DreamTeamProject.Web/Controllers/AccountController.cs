@@ -29,9 +29,17 @@ namespace DreamTeamProject.Web.Controllers
         }
 
         [HttpPost]
+        [Route("register-post")]
         public IActionResult RegistrationPost([FromForm] RegisterViewModel vm)
         {
-            string registationResult = this.accountService.Registration(vm.Customer, vm.Password);
+            var customer = new Customer()
+            {
+                Email = vm.Email,
+                Name = vm.Name,
+                Phone = vm.Phone,
+                SurName = vm.SurName,
+            };
+            string registationResult = this.accountService.Registration(customer, vm.Password);
             if (registationResult != null)
             {
                 return RedirectToAction("Registration");
@@ -47,6 +55,7 @@ namespace DreamTeamProject.Web.Controllers
         }
 
         [HttpPost]
+        [Route("login-post")]
         public async Task<IActionResult> LoginPost([FromForm] LoginViewModel vm)
         {
             string resultLogin = this.accountService.Login(vm.Email, vm.Password);
@@ -84,7 +93,12 @@ namespace DreamTeamProject.Web.Controllers
         [Route("all-users")]
         public IActionResult GetAllUsers()
         {
-            return View();
+            var allUsers = this.accountService.GetAllUsers();
+            if(allUsers == null)
+            {
+                return BadRequest();
+            }
+            return View(allUsers);
         }
 
         [HttpPost]
