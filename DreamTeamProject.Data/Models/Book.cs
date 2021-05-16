@@ -8,8 +8,11 @@ namespace DreamTeamProject.Data.Models
     {
         public int Id { get; set; }
         public int Price { get; set; }
+        public int BookCount { get; set; }
         public int NumberOfPages { get; set; }
         public string Name { get; set; }
         public PublishingHouse PublishingHouse { get; set; }
+        public Genere Genere { get; set; }
+        public Author Author { get; set; }
     }
 }

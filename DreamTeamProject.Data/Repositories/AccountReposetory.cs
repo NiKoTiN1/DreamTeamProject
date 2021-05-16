@@ -3,8 +3,6 @@ using DreamTeamProject.Data.Interfaces;
 using DreamTeamProject.Data.Models;
 using Oracle.ManagedDataAccess.Client;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DreamTeamProject.Data.Repositories
 {
@@ -25,7 +23,7 @@ namespace DreamTeamProject.Data.Repositories
             var arg4 = new Tuple<string, OracleDbType, object>("p_email", OracleDbType.Varchar2, customer.Email);
             var arg5 = new Tuple<string, OracleDbType, object>("p_password", OracleDbType.Varchar2, password);
 
-            return this.baseReposetory.RunDbRequest("post_register_customer", args: new Tuple<string, OracleDbType, object>[] { arg1, arg2, arg3, arg4, arg5 });
+            return this.baseReposetory.RunDbRequest("register_customer", args: new Tuple<string, OracleDbType, object>[] { arg1, arg2, arg3, arg4, arg5 });
         }
 
         public DbOutput Login(string email, string password)
