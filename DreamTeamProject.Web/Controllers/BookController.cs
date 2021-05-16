@@ -54,9 +54,9 @@ namespace DreamTeamProject.Web.Controllers
             var result = this.bookService.AddBook(book);
             if(!result)
             {
-                return RedirectToAction("GetAllBooks");
+                return RedirectToAction("AddBook");
             }
-            return RedirectToAction("AddBook");
+            return RedirectToAction("GetAllBooks");
         }
 
         [HttpGet]
@@ -75,9 +75,25 @@ namespace DreamTeamProject.Web.Controllers
             var result = this.bookService.AddGenere(genere);
             if (!result)
             {
-                return RedirectToAction("GetAllBooks");
+                return RedirectToAction("AddGenere");
             }
-            return RedirectToAction("AddGenere");
+            return RedirectToAction("GetAllBooks");
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("add-pub-house")]
+        public IActionResult AddPubHouse()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+
+        public IActionResult AddPubHousePost([FromForm] string name)
+        {
+            return RedirectToAction("GetAllBooks");
         }
     }
 }

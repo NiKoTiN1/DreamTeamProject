@@ -8,5 +8,6 @@ namespace DreamTeamProject.Data.Models
     {
         public string MiddleName { get; set; }
         public string FormOfEmployment { get; set; }
+        public List<Book> Books { get; set; }
     }
 }
