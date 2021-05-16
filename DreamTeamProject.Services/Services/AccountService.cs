@@ -113,5 +113,19 @@ namespace DreamTeamProject.Services.Services
 
             return users;
         }
+
+        public bool IsAdmin(string userId)
+        {
+            var user = this.GetUser(Convert.ToInt32(userId));
+            if (user == null)
+            {
+                return false;
+            }
+            if (user.UserRole.Id != 1)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

@@ -16,9 +16,9 @@ namespace DreamTeamProject.Services.Services
 
         private readonly IOrderReposetory orderReposetory;
 
-        public bool AddOrder(Order order)
+        public bool AddOrder(int bookId, string address, string paymentMethod, int customerId)
         {
-            var dbResult = this.orderReposetory.AddOrder(order);
+            var dbResult = this.orderReposetory.AddOrder(bookId, address, paymentMethod, customerId);
             return dbResult.Result == DbResult.Successed;
         }
 

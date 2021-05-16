@@ -12,5 +12,6 @@ namespace DreamTeamProject.Services.Interfaces
         public string Registration(Customer customer, string password);
         public Customer ChangeRole(int userId, int roleId);
         public List<Customer> GetAllUsers();
+        public bool IsAdmin(string userId);
     }
 }

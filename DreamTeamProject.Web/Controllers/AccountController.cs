@@ -89,10 +89,19 @@ namespace DreamTeamProject.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [Route("all-users")]
         public IActionResult GetAllUsers()
         {
+            Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
+            if (userIdClaim.Value == null)
+            {
+                return RedirectToAction("Login");
+            }
+            if (!this.accountService.IsAdmin(userIdClaim.Value))
+            {
+                return BadRequest("You are not Admin!");
+            }
             var allUsers = this.accountService.GetAllUsers();
             if(allUsers == null)
             {
@@ -102,13 +111,17 @@ namespace DreamTeamProject.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public IActionResult ChangeRole([FromForm] ChangeRoleViewModel model)
         {
             Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
             if (userIdClaim.Value == null)
             {
                 return RedirectToAction("Login");
+            }
+            if (!this.accountService.IsAdmin(userIdClaim.Value))
+            {
+                return BadRequest("You are not Admin!");
             }
             var newCustomer = this.accountService.ChangeRole(model.Id, model.RoleId);
             if(newCustomer == null)

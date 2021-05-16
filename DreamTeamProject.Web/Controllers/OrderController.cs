@@ -1,10 +1,12 @@
 ﻿using DreamTeamProject.Data.Models;
 using DreamTeamProject.Services.Interfaces;
+using DreamTeamProject.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DreamTeamProject.Web.Controllers
@@ -28,9 +30,14 @@ namespace DreamTeamProject.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateOrderPost([FromForm] Order order)
+        public IActionResult CreateOrderPost([FromForm] AddOrderViewModel model)
         {
-            bool result = this.orderService.AddOrder(order);
+            Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
+            if (userIdClaim.Value == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            bool result = this.orderService.AddOrder(model.BookId, model.Address, model.PaymentMethod, Convert.ToInt32(userIdClaim.Value));
             if (!result)
             {
                 return RedirectToAction("GetAllBooks", "Book");

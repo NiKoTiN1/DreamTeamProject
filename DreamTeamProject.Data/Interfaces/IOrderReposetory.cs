@@ -7,6 +7,6 @@ namespace DreamTeamProject.Data.Interfaces
 {
     public interface IOrderReposetory
     {
-        public DbOutput AddOrder(Order order);
+        public DbOutput AddOrder(int bookId, string address, string paymentMethod, int customerId);
     }
 }
