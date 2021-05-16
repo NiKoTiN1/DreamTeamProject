@@ -1,6 +1,7 @@
 ﻿using DreamTeamProject.Data.Models;
 using DreamTeamProject.Services.Interfaces;
 using DreamTeamProject.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -27,7 +28,7 @@ namespace DreamTeamProject.Web.Controllers
 
         [HttpGet]
         [Route("search/{searchLine}")]
-        public IActionResult GetAllBooks([FromRoute] string searchLine)
+        public IActionResult GetSearchedBooks([FromRoute] string searchLine)
         {
             SearchViewModel model = new SearchViewModel()
             {
@@ -36,6 +37,47 @@ namespace DreamTeamProject.Web.Controllers
                 SearchedByGenere = this.bookService.GetBookByGenere(searchLine)
             };
             return View(model);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("add")]
+        public IActionResult AddBook()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult AddBookPost([FromForm] Book book)
+        {
+            var result = this.bookService.AddBook(book);
+            if(!result)
+            {
+                return RedirectToAction("GetAllBooks");
+            }
+            return RedirectToAction("AddBook");
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("add-genere")]
+        public IActionResult AddGenere()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+
+        public IActionResult AddGenerePost([FromForm] string genere)
+        {
+            var result = this.bookService.AddGenere(genere);
+            if (!result)
+            {
+                return RedirectToAction("GetAllBooks");
+            }
+            return RedirectToAction("AddGenere");
         }
     }
 }

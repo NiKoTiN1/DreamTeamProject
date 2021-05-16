@@ -40,5 +40,24 @@ namespace DreamTeamProject.Data.Repositories
             var returnValArg = new Tuple<string, OracleDbType>("out_genre", OracleDbType.RefCursor);
             return this.baseReposetory.RunDbRequest("get_book_by_genre", mustRespond: true, args: new Tuple<string, OracleDbType, object>[] { arg1 }, returnValArg);
         }
+
+        public DbOutput AddBook(Book book)
+        {
+            var arg1 = new Tuple<string, OracleDbType, object>("name_book", OracleDbType.Varchar2, book.Name);
+            var arg2 = new Tuple<string, OracleDbType, object>("num_of_pages", OracleDbType.Decimal, book.NumberOfPages);
+            var arg3 = new Tuple<string, OracleDbType, object>("pric", OracleDbType.Decimal, book.Price);
+            var arg4 = new Tuple<string, OracleDbType, object>("b_count", OracleDbType.Decimal, book.BookCount);
+            var arg5 = new Tuple<string, OracleDbType, object>("id_ph", OracleDbType.Decimal, book.PublishingHouse.Id);
+            var arg6 = new Tuple<string, OracleDbType, object>("id_g", OracleDbType.Decimal, book.Genere.Id);
+            var arg7 = new Tuple<string, OracleDbType, object>("id_a", OracleDbType.Decimal, book.Author.UserId);
+            return this.baseReposetory.RunDbRequest("Insert_Book", mustRespond: false, args: new Tuple<string, OracleDbType, object>[] { arg1, arg2, arg3, arg4, arg5, arg6, arg7 });
+        }
+
+        public DbOutput AddGenere(string genereName)
+        {
+            var arg1 = new Tuple<string, OracleDbType, object>("name_g", OracleDbType.Varchar2, genereName);
+            return this.baseReposetory.RunDbRequest("Insert_Genre", mustRespond: false, args: new Tuple<string, OracleDbType, object>[] { arg1 });
+
+        }
     }
 }
