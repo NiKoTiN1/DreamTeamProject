@@ -93,6 +93,11 @@ namespace DreamTeamProject.Web.Controllers
 
         public IActionResult AddPubHousePost([FromForm] string name)
         {
+            var result = this.bookService.AddPubHouse(name);
+            if (!result)
+            {
+                return RedirectToAction("AddPubHouse");
+            }
             return RedirectToAction("GetAllBooks");
         }
     }

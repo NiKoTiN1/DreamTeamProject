@@ -57,7 +57,12 @@ namespace DreamTeamProject.Data.Repositories
         {
             var arg1 = new Tuple<string, OracleDbType, object>("name_g", OracleDbType.Varchar2, genereName);
             return this.baseReposetory.RunDbRequest("Insert_Genre", mustRespond: false, args: new Tuple<string, OracleDbType, object>[] { arg1 });
+        }
 
+        public DbOutput AddPubHouse(string name)
+        {
+            var arg1 = new Tuple<string, OracleDbType, object>("name_ph", OracleDbType.Varchar2, name);
+            return this.baseReposetory.RunDbRequest("Insert_PubHouse", mustRespond: false, args: new Tuple<string, OracleDbType, object>[] { arg1 });
         }
     }
 }
