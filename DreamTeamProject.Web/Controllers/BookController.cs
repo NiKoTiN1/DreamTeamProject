@@ -32,6 +32,18 @@ namespace DreamTeamProject.Web.Controllers
         }
 
         [HttpGet]
+        [Route("{bookId}")]
+        public IActionResult GetBook([FromRoute] int bookId)
+        {
+            var book = this.bookService.GetBook(bookId);
+            if (book == null)
+            {
+                return RedirectToAction("GetAllBooks");
+            }
+            return View(book);
+        }
+
+        [HttpGet]
         [Route("search/{searchLine}")]
         public IActionResult GetSearchedBooks([FromRoute] string searchLine)
         {

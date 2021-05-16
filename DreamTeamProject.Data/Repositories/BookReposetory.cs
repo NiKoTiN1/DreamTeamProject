@@ -64,5 +64,12 @@ namespace DreamTeamProject.Data.Repositories
             var arg1 = new Tuple<string, OracleDbType, object>("name_ph", OracleDbType.Varchar2, name);
             return this.baseReposetory.RunDbRequest("Insert_PubHouse", mustRespond: false, args: new Tuple<string, OracleDbType, object>[] { arg1 });
         }
+
+        public DbOutput GetBook(int bookId)
+        {
+            var arg1 = new Tuple<string, OracleDbType, object>("s_book_id", OracleDbType.Decimal, bookId);
+            var returnValArg = new Tuple<string, OracleDbType>("out_book_id", OracleDbType.RefCursor);
+            return this.baseReposetory.RunDbRequest("get_book_by_id", mustRespond: true, args: new Tuple<string, OracleDbType, object>[] { arg1 }, returnValArg);
+        }
     }
 }
