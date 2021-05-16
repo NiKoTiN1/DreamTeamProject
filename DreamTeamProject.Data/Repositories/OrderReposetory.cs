@@ -24,5 +24,23 @@ namespace DreamTeamProject.Data.Repositories
             var arg4 = new Tuple<string, OracleDbType, object>("id_u", OracleDbType.Varchar2, customerId);
             return this.baseReposetory.RunDbRequest("create_book_order", mustRespond: false, args: new Tuple<string, OracleDbType, object>[] { arg1, arg2, arg3, arg4 });
         }
+
+        public DbOutput GetAllOrders()
+        {
+            var returnValArg = new Tuple<string, OracleDbType>("out_allorders", OracleDbType.RefCursor);
+            return this.baseReposetory.RunDbRequest("get_all_orders", mustRespond: true, args: new Tuple<string, OracleDbType, object>[] { }, returnValArg);
+        }
+
+        public DbOutput RejectOrder(int orderId)
+        {
+            var arg1 = new Tuple<string, OracleDbType, object>("id_order", OracleDbType.Decimal, orderId);
+            return this.baseReposetory.RunDbRequest("ban_book_order", mustRespond: false, args: new Tuple<string, OracleDbType, object>[] { arg1 });
+        }
+
+        public DbOutput AcceptOrder(int orderId)
+        {
+            var arg1 = new Tuple<string, OracleDbType, object>("id_order", OracleDbType.Decimal, orderId);
+            return this.baseReposetory.RunDbRequest("done_book_order", mustRespond: false, args: new Tuple<string, OracleDbType, object>[] { arg1 });
+        }
     }
 }
