@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace DreamTeamProject.Web.Controllers
 {
+    [Route("{controllerName}")]
     public class AccountController : Controller
     {
         public AccountController(IAccountService accountService)
@@ -21,15 +22,12 @@ namespace DreamTeamProject.Web.Controllers
         }
         private readonly IAccountService accountService;
 
-        [HttpGet]
-        [Route("register")]
+        [HttpGet("register")]
         public IActionResult Registration()
         {
             return View();
         }
-
-        [HttpPost]
-        [Route("register-post")]
+        [HttpPost("register")]
         public IActionResult RegistrationPost([FromForm] RegisterViewModel vm)
         {
             var customer = new Customer()
@@ -47,35 +45,46 @@ namespace DreamTeamProject.Web.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        [Route("login")]
+        [HttpGet("login")]
         public IActionResult Login()
         {
             return View();
         }
 
-        [HttpPost]
-        [Route("login-post")]
+        [HttpPost("login")]
         public async Task<IActionResult> LoginPost([FromForm] LoginViewModel vm)
         {
             string resultLogin = this.accountService.Login(vm.Email, vm.Password);
             try
             {
                 int userId = Convert.ToInt32(resultLogin);
+
+                // Как роль добавлять будем?
+                string userRole = "seller";
+
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, userId.ToString())
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, userId.ToString()),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole)
                 };
                 var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
                 User user = this.accountService.GetUser(userId);
-                return RedirectToAction("AllBooks", "Books");
+                return RedirectToAction("all", "Book");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return BadRequest(resultLogin);
+                return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("test")]
+        [Authorize]
+        public IActionResult Test()
+        {
+            var a = HttpContext;
+            return Ok("test");
         }
 
         [HttpGet]
@@ -103,7 +112,7 @@ namespace DreamTeamProject.Web.Controllers
                 return BadRequest("You are not Admin!");
             }
             var allUsers = this.accountService.GetAllUsers();
-            if(allUsers == null)
+            if (allUsers == null)
             {
                 return BadRequest();
             }
@@ -124,7 +133,7 @@ namespace DreamTeamProject.Web.Controllers
                 return BadRequest("You are not Admin!");
             }
             var newCustomer = this.accountService.ChangeRole(model.Id, model.RoleId);
-            if(newCustomer == null)
+            if (newCustomer == null)
             {
                 return RedirectToAction("All", "Book");
             }

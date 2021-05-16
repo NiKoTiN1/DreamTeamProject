@@ -10,7 +10,8 @@ using System.Security.Claims;
 
 namespace DreamTeamProject.Web.Controllers
 {
-    [Route("books")]
+
+    [Route("{controllerName}")]
     public class BookController : Controller
     {
         public BookController(IBookService bookService, IAccountService accountService)
@@ -31,16 +32,14 @@ namespace DreamTeamProject.Web.Controllers
             return View(books);
         }
 
-        [HttpGet]
-        [Route("{bookId}")]
-        public IActionResult GetBook([FromRoute] int bookId)
+        [HttpGet("BookDescription")]
+        public IActionResult BookDescription([FromQuery] int bookId)
         {
-            var book = this.bookService.GetBook(bookId);
-            if (book == null)
-            {
-                return RedirectToAction("GetAllBooks");
-            }
-            return View(book);
+            // Найти книгу по id
+            // Book book = books.Find(b => b.Id == bookId);
+            // В ViewBag установить sellerId, которому соответствует заданная книга
+            // ViewBag.sellerId = sellers.Find(seller => seller.Books.Exists(book => book.Id == bookId)).UserId;
+            return View(/*передать Book*/);
         }
 
         [HttpGet]
@@ -64,92 +63,64 @@ namespace DreamTeamProject.Web.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("add")]
         [Authorize]
         public IActionResult AddBookPost([FromForm] Book book)
         {
+            // Не забыть также добавить эту книгу продавцу
             var result = this.bookService.AddBook(book);
-            if(!result)
+            if (!result)
             {
                 return RedirectToAction("AddBook");
             }
             return RedirectToAction("GetAllBooks");
         }
 
-        [HttpGet]
-        [Authorize]
-        [Route("add-genere")]
-        public IActionResult AddGenere()
+        [HttpGet("view-orders")]
+        [Authorize(Roles = "seller")]
+        public IActionResult ViewOrders()
         {
-            Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
-            if (userIdClaim.Value == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            if(!this.accountService.IsAdmin(userIdClaim.Value))
-            {
-                return BadRequest("You are not Admin!");
-            }
-            return View();
+            // Получить sellerId(userId) из HttpContext
+            // Найти список заказов для этого sellerId
+            // List<Order> orderListforUser = orders.Where(order => order.Seller.UserId == sellerId).ToList();
+            return View(/*передать List<Order>*/);
         }
 
-        [HttpPost]
-        [Authorize]
-        public IActionResult AddGenerePost([FromForm] string genere)
+        [HttpPost("order-action")]
+        [Authorize(Roles = "seller")]
+        public IActionResult OrderAction(string orderId, string actionType)
         {
-            Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
-            if (userIdClaim.Value == null)
+            if (actionType == "Подтвердить")
             {
-                return RedirectToAction("Login", "Account");
+                // Получить order по orderId
+                // Найти книгу из списка книг по order.Book.Id
+                // Уменьшить BookCount этой книги
+                // Удалить заказ из списка заказов
+                return Ok("Заказ подтверждён");
             }
-            if (!this.accountService.IsAdmin(userIdClaim.Value))
+            if (actionType == "Отклонить")
             {
-                return BadRequest("You are not Admin!");
+                // Получить order по orderId
+                // Удалить заказ из списка заказов
+                return Ok("Заказ удалён");
             }
-            var result = this.bookService.AddGenere(genere);
-            if (!result)
-            {
-                return RedirectToAction("AddGenere");
-            }
-            return RedirectToAction("GetAllBooks");
+            return Ok("Заказ отклонён");
         }
 
-        [HttpGet]
+        [HttpPost("book-action")]
         [Authorize]
-        [Route("add-pub-house")]
-        public IActionResult AddPubHouse()
+        public IActionResult BookAction(string actionType, Book book, string sellerId)
         {
-            Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
-            if (userIdClaim.Value == null)
+            if (actionType == "Купить")
             {
-                return RedirectToAction("Login", "Account");
+                //sellerId есть, bookId есть, customerId - взять из HttpContext. Сгенерировать order
+                return Ok($"Книга с id {book.Id} успешно добавлена заказана. Ожидайте подтвердения продавца");
             }
-            if (!this.accountService.IsAdmin(userIdClaim.Value))
+            if (actionType == "Удалить")
             {
-                return BadRequest("You are not Admin!");
+                return Ok($"Книга с id {book.Id} успешно удалена");
             }
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public IActionResult AddPubHousePost([FromForm] string name)
-        {
-            Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
-            if (userIdClaim.Value == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            if (!this.accountService.IsAdmin(userIdClaim.Value))
-            {
-                return BadRequest("You are not Admin!");
-            }
-            var result = this.bookService.AddPubHouse(name);
-            if (!result)
-            {
-                return RedirectToAction("AddPubHouse");
-            }
-            return RedirectToAction("GetAllBooks");
+            return Ok();
         }
     }
 }

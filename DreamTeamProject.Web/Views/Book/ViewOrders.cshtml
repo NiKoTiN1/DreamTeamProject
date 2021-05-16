@@ -1,0 +1,49 @@
+﻿@model List<Order>
+
+<table class="table sticky-table">
+    <thead>
+        <tr>
+            <th class="th-header">
+                Название
+            </th>
+            <th class="th-header">
+                Стоимость
+            </th>
+            <th class="th-header">
+                Адрес доставки
+            </th>
+            <th class="th-header">
+
+            <th class="th-header">
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Order order in Model)
+        {
+            <form method="post" asp-action="order-action" asp-controller="Book">
+                <input type="hidden" value="@order.Id" name="orderId" />
+                <tr class="table-row">
+                    <th style="vertical-align: middle;">
+                        <p>
+                            @order.Book.Name
+                        </p>
+                    </th>
+                    <th style="vertical-align: middle;">
+                        @order.FinishPrice
+                    </th>
+                    <th style="vertical-align: middle;">
+                        @order.Address
+                    </th>
+                    <th style="vertical-align: middle;">
+                        <input type="submit" value="Подтвердить" name="actionType" />
+                    </th>
+                    <th style="vertical-align: middle;">
+                        <input type="submit" value="Отклонить" name="actionType" />
+                    </th>
+                </tr>
+            </form>
+        }
+    </tbody>
+</table>

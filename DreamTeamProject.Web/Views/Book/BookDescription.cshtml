@@ -1,0 +1,112 @@
+﻿@model Book
+
+<div>
+    <p>
+        Информация о книге:
+    </p>
+    @if (Model != null)
+    {
+        <form asp-action="book-action" asp-controller="book" method="post">
+            <input type="hidden" value="@Model.Id" asp-for="Id" />
+            <input type="hidden" value="@ViewBag.sellerId" name="sellerId" />
+            <p>
+                Навание книги:
+                @if (User.IsInRole("seller"))
+                {
+                    <input type="text" value="@Model.Name" asp-for="Name" />
+                }
+                else
+                {
+                    @Model.Name
+                }
+            </p>
+            <p>
+                Автор:
+                @if (User.IsInRole("seller"))
+                {
+                    <input type="text" value="@Model.Author.Name" asp-for="Author.Name" />
+                }
+                else
+                {
+                    @Model.Author.Name
+                }
+            </p>
+            <p>
+                Жанр:
+                @if (User.IsInRole("seller"))
+                {
+                    <input type="text" value="@Model.Genere.Name" asp-for="Genere.Name" />
+                }
+                else
+                {
+                    @Model.Genere.Name
+                }
+            </p>
+            <p>
+                Издательство:
+                @if (User.IsInRole("seller"))
+                {
+                    <input type="text" value="@Model.PublishingHouse.Name" asp-for="PublishingHouse.Name" />
+                }
+                else
+                {
+                    @Model.PublishingHouse.Name
+                }
+            </p>
+            <p>
+                Кол-во страниц:
+                @if (User.IsInRole("seller"))
+                {
+                    <input type="text" value="@Model.NumberOfPages" asp-for="NumberOfPages" />
+                }
+                else
+                {
+                    @Model.NumberOfPages
+                }
+            </p>
+            <input type="submit" value="Купить" name="actionType">
+            @if (User.IsInRole("seller"))
+            {
+                <input type="submit" value="Удалить" name="actionType">
+                <input type="submit" value="Сохранить" name="actionType">
+            }
+            @*<p>
+                    Номер книги: @Model.Id
+                </p>
+                <p>
+                    Навание книги: @Model.Name
+                </p>
+                <p>
+                    Количество страниц: @Model.NumberOfPages
+                </p>
+                <p>
+                    Стоимость: @Model.Price
+                </p>
+                <p>
+                    Информация об издателе:
+                </p>
+                @if (Model.PublishingHouse != null)
+                {
+                    <p>
+                        Номер издателя: @Model.PublishingHouse.Id
+                    </p>
+                    <p>
+                        Название издателя: @Model.PublishingHouse.Name
+                    </p>
+                    <p>
+                        E-mail: @Model.PublishingHouse.Email
+                    </p>
+                    <p>
+                        Адрес: @Model.PublishingHouse.Address
+                    </p>
+                }*@
+        </form>
+        <form>
+            <p>
+                Оставить комментарий:
+            </p>
+            <textarea></textarea>
+            <input type="submit" value="Отправить" />
+        </form>
+    }
+</div>

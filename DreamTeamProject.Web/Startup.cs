@@ -22,7 +22,8 @@ namespace DreamTeamProject
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -61,6 +62,10 @@ namespace DreamTeamProject
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Dashobard}");
+                endpoints.MapRazorPages();
                 endpoints.MapControllers();
             });
         }
