@@ -15,5 +15,7 @@ namespace DreamTeamProject.Data.Interfaces
         public DbOutput AddGenere(string genereName);
         public DbOutput AddPubHouse(string name);
         public DbOutput GetBook(int bookId);
+        public DbOutput GetBookComments(int bookId);
+        public DbOutput AddBookComment(string context, int userId, int bookId);
     }
 }

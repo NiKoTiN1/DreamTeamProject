@@ -1,4 +1,5 @@
 ﻿using DreamTeamProject.Data.Models;
+using DreamTeamProject.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,7 @@ namespace DreamTeamProject.Services.Interfaces
         public bool AddBook(Book book);
         public bool AddGenere(string genereName);
         public bool AddPubHouse(string name);
-        public Book GetBook(int bookId);
+        public GetBookViewModel GetBook(int bookId);
+        public bool AddBookComment(string context, int userId, int bookId);
     }
 }

@@ -43,6 +43,23 @@ namespace DreamTeamProject.Web.Controllers
             return View(book);
         }
 
+        [HttpPost]
+        [Authorize]
+        public IActionResult AddComment([FromRoute] AddCommnetViewModel model)
+        {
+            Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
+            if (userIdClaim.Value == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var result = this.bookService.AddBookComment(model.Context, model.UserId, model.BookId);
+            if (!result)
+            {
+                return RedirectToAction("GetAllBooks");
+            }
+            return RedirectToAction("GetBook", model.BookId);
+        }
+
         [HttpGet]
         [Route("search/{searchLine}")]
         public IActionResult GetSearchedBooks([FromRoute] string searchLine)

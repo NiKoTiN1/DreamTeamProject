@@ -1,6 +1,7 @@
 ﻿using DreamTeamProject.Data.Interfaces;
 using DreamTeamProject.Data.Models;
 using DreamTeamProject.Services.Interfaces;
+using DreamTeamProject.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -183,32 +184,61 @@ namespace DreamTeamProject.Services.Services
             return dbResult.Result == DbResult.Successed;
         }
 
-        public Book GetBook(int bookId)
+        public GetBookViewModel GetBook(int bookId)
         {
             var dbResult = this.bookReposetory.GetBook(bookId);
-            Book book = new Book()
+            GetBookViewModel model = new GetBookViewModel()
             {
-                Id = Convert.ToInt32(dbResult.OutElements.ElementAt(0)),
-                Name = dbResult.OutElements.ElementAt(1).ToString(),
-                NumberOfPages = Convert.ToInt32(dbResult.OutElements.ElementAt(2)),
-                Price = Convert.ToInt32(dbResult.OutElements.ElementAt(3)),
-                BookCount = Convert.ToInt32(dbResult.OutElements.ElementAt(4)),
-                Author = new Author()
+                Book = new Book()
                 {
-                    SurName = dbResult.OutElements.ElementAt(5).ToString(),
-                    Name = dbResult.OutElements.ElementAt(6).ToString(),
-                    MiddleName = dbResult.OutElements.ElementAt(7).ToString(),
+                    Id = Convert.ToInt32(dbResult.OutElements.ElementAt(0)),
+                    Name = dbResult.OutElements.ElementAt(1).ToString(),
+                    NumberOfPages = Convert.ToInt32(dbResult.OutElements.ElementAt(2)),
+                    Price = Convert.ToInt32(dbResult.OutElements.ElementAt(3)),
+                    BookCount = Convert.ToInt32(dbResult.OutElements.ElementAt(4)),
+                    Author = new Author()
+                    {
+                        SurName = dbResult.OutElements.ElementAt(5).ToString(),
+                        Name = dbResult.OutElements.ElementAt(6).ToString(),
+                        MiddleName = dbResult.OutElements.ElementAt(7).ToString(),
+                    },
+                    PublishingHouse = new PublishingHouse()
+                    {
+                        Name = dbResult.OutElements.ElementAt(8).ToString()
+                    },
+                    Genere = new Genere()
+                    {
+                        Name = dbResult.OutElements.ElementAt(9).ToString()
+                    }
                 },
-                PublishingHouse = new PublishingHouse()
-                {
-                    Name = dbResult.OutElements.ElementAt(8).ToString()
-                },
-                Genere = new Genere()
-                {
-                    Name = dbResult.OutElements.ElementAt(9).ToString()
-                }
+                Comments = new List<Comment>()
             };
-            return book;
+            var commentDbResult = this.bookReposetory.GetBookComments(bookId);
+            if(commentDbResult.Result == DbResult.Faild)
+            {
+                return null;
+            }
+            for (int i = 0; i < commentDbResult.OutElements.Count; i++)
+            {
+                Comment comment = new Comment()
+                {
+                    Id = Convert.ToInt32(commentDbResult.OutElements.ElementAt(i)),
+                    CommentId = Convert.ToInt32(commentDbResult.OutElements.ElementAt(i + 1)),
+                    Customer = new User()
+                    {
+                        UserId = Convert.ToInt32(commentDbResult.OutElements.ElementAt(i + 2))
+                    },
+                    Context = commentDbResult.OutElements.ElementAt(i + 3).ToString()
+                };
+                model.Comments.Add(comment);
+            }
+            return model;
+        }
+
+        public bool AddBookComment(string context, int userId, int bookId)
+        {
+            var dbResult = this.bookReposetory.AddBookComment(context, userId, bookId);
+            return dbResult.Result == DbResult.Successed
         }
     }
 }
