@@ -48,12 +48,12 @@ namespace DreamTeamProject.Web.Controllers
         [Authorize]
         public IActionResult AddComment(AddCommnetViewModel model)
         {
-            // UserId получи из claims
             Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
             if (userIdClaim.Value == null)
             {
                 return RedirectToAction("Login", "Account");
             }
+            model.UserId = Convert.ToInt32(userIdClaim.Value);
             var result = this.bookService.AddBookComment(model.Context, model.UserId, model.BookId);
             if (!result)
             {

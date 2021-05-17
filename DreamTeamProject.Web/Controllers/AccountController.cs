@@ -33,14 +33,7 @@ namespace DreamTeamProject.Web.Controllers
         [Route("register-post")]
         public IActionResult RegistrationPost([FromForm] RegisterViewModel vm)
         {
-            var customer = new Customer()
-            {
-                Email = vm.Email,
-                Name = vm.Name,
-                Phone = vm.Phone,
-                SurName = vm.SurName,
-            };
-            string registationResult = this.accountService.Registration(customer, vm.Password);
+            string registationResult = this.accountService.Registration(vm.Nickname, vm.Email, vm.Password);
             if (registationResult != null)
             {
                 return RedirectToAction("Registration");
