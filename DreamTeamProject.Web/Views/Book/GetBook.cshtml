@@ -1,1 +1,57 @@
 ﻿@model GetBookViewModel
+
+<div>
+    <p>
+        Информация о книге:
+    </p>
+    @if (Model.Book != null)
+    {
+        <p>
+            Навание книги: @Model.Book.Name
+        </p>
+        <p>
+            Автор: @Model.Book.Author.Name
+        </p>
+        <p>
+            Жанр: @Model.Book.Genere.Name
+        </p>
+        <p>
+            Издательство: @Model.Book.PublishingHouse.Name
+        </p>
+        <p>
+            Кол-во страниц: @Model.Book.NumberOfPages
+        </p>
+        @if (User.IsInRole("seller"))
+        {
+            <form method="post" asp-controller="Books" asp-action="delete">
+                <input type="hidden" value="@Model.Book.Id" name="bookId" />
+                <input type="submit" value="Удалить">
+            </form>
+        }
+        <p>Комментарии:</p>
+        @foreach (Comment com in Model.Comments)
+        {
+            <div style="background-color: lightgrey; margin: 3px;">
+                @if (com.CommentId != 0)
+                {
+                    <p>[@com.Id] @com.Customer.Name пишет в ответ на [@com.CommentId]:</p>
+                }
+                else
+                {
+                    <p>[@com.Id] @com.Customer.Name пишет:</p>
+                }
+                <p>
+                    @com.Context
+                </p>
+            </div>
+        }
+        <p>
+            Оставить комментарий:
+        </p>
+        <form method="post" asp-action="add-comment" asp-controller="Books">
+            <input type="hidden" value="@Model.Book.Id" name="bookId" />
+            <textarea name="context"></textarea>
+            <input type="submit" value="Отправить" />
+        </form>
+    }
+</div>

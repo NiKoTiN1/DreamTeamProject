@@ -1,0 +1,11 @@
+﻿<form method="get" asp-action="search" asp-controller="Books">
+    <input type="text" name="searchLine" />
+    <input type="submit" value="Поиск" />
+</form>
+<a asp-action="all" asp-controller="Books">Все книги</a>
+<br />
+<a asp-action="add" asp-controller="Books">Добавить книгу</a>
+<br />
+<a asp-action="all" asp-controller="Order">Просмотреть заказы</a>
+<br />
+<a asp-action="create" asp-controller="Order">Добавить заказ</a>

@@ -13,6 +13,7 @@ namespace DreamTeamProject.Web.Controllers
     [Route("books")]
     public class BookController : Controller
     {
+
         public BookController(IBookService bookService, IAccountService accountService)
         {
             this.bookService = bookService;
@@ -33,7 +34,7 @@ namespace DreamTeamProject.Web.Controllers
 
         [HttpGet]
         [Route("{bookId}")]
-        public IActionResult GetBook([FromRoute] int bookId)
+        public IActionResult GetBook(int bookId)
         {
             var book = this.bookService.GetBook(bookId);
             if (book == null)
@@ -43,10 +44,11 @@ namespace DreamTeamProject.Web.Controllers
             return View(book);
         }
 
-        [HttpPost]
+        [HttpPost("add-comment")]
         [Authorize]
-        public IActionResult AddComment([FromRoute] AddCommnetViewModel model)
+        public IActionResult AddComment(AddCommnetViewModel model)
         {
+            // UserId получи из claims
             Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
             if (userIdClaim.Value == null)
             {
@@ -61,8 +63,8 @@ namespace DreamTeamProject.Web.Controllers
         }
 
         [HttpGet]
-        [Route("search/{searchLine}")]
-        public IActionResult GetSearchedBooks([FromRoute] string searchLine)
+        [Route("search")]
+        public IActionResult GetSearchedBooks(string searchLine)
         {
             SearchViewModel model = new SearchViewModel()
             {
@@ -81,7 +83,7 @@ namespace DreamTeamProject.Web.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("add")]
         [Authorize]
         public IActionResult AddBookPost([FromForm] Book book)
         {
@@ -93,80 +95,12 @@ namespace DreamTeamProject.Web.Controllers
             return RedirectToAction("GetAllBooks");
         }
 
-        [HttpGet]
+        [HttpPost("delete")]
         [Authorize]
-        [Route("add-genere")]
-        public IActionResult AddGenere()
+        public IActionResult DeleteBook(string bookId)
         {
-            Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
-            if (userIdClaim.Value == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            if(!this.accountService.IsAdmin(userIdClaim.Value))
-            {
-                return BadRequest("You are not Admin!");
-            }
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public IActionResult AddGenerePost([FromForm] string genere)
-        {
-            Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
-            if (userIdClaim.Value == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            if (!this.accountService.IsAdmin(userIdClaim.Value))
-            {
-                return BadRequest("You are not Admin!");
-            }
-            var result = this.bookService.AddGenere(genere);
-            if (!result)
-            {
-                return RedirectToAction("AddGenere");
-            }
-            return RedirectToAction("GetAllBooks");
-        }
-
-        [HttpGet]
-        [Authorize]
-        [Route("add-pub-house")]
-        public IActionResult AddPubHouse()
-        {
-            Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
-            if (userIdClaim.Value == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            if (!this.accountService.IsAdmin(userIdClaim.Value))
-            {
-                return BadRequest("You are not Admin!");
-            }
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public IActionResult AddPubHousePost([FromForm] string name)
-        {
-            Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
-            if (userIdClaim.Value == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            if (!this.accountService.IsAdmin(userIdClaim.Value))
-            {
-                return BadRequest("You are not Admin!");
-            }
-            var result = this.bookService.AddPubHouse(name);
-            if (!result)
-            {
-                return RedirectToAction("AddPubHouse");
-            }
-            return RedirectToAction("GetAllBooks");
+            // Добавить логику удаления
+            return Ok();
         }
     }
 }

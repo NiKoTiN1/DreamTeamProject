@@ -52,7 +52,7 @@ namespace DreamTeamProject.Web.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public IActionResult CreateOrderPost([FromForm] AddOrderViewModel model)
         {
             Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
@@ -68,8 +68,8 @@ namespace DreamTeamProject.Web.Controllers
             return RedirectToAction("CreateOrder");
         }
 
-        [HttpPost]
-        public IActionResult AcceptOrder([FromForm] int orderId)
+        [HttpPost("reject")]
+        public IActionResult AcceptOrder(int orderId)
         {
             Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
             if (userIdClaim.Value == null)
@@ -88,8 +88,8 @@ namespace DreamTeamProject.Web.Controllers
             return RedirectToAction("GetAllOrders");
         }
 
-        [HttpPost]
-        public IActionResult RejectOrder([FromForm] int orderId)
+        [HttpPost("accept")]
+        public IActionResult RejectOrder(int orderId)
         {
             Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
             if (userIdClaim.Value == null)
