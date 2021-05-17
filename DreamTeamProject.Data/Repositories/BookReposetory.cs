@@ -84,7 +84,7 @@ namespace DreamTeamProject.Data.Repositories
             var arg1 = new Tuple<string, OracleDbType, object>("c_context", OracleDbType.Varchar2, context);
             var arg2 = new Tuple<string, OracleDbType, object>("u_id", OracleDbType.Decimal, userId);
             var arg3 = new Tuple<string, OracleDbType, object>("b_id", OracleDbType.Decimal, bookId);
-            return this.baseReposetory.RunDbRequest("get_comments_of_book", mustRespond: false, args: new Tuple<string, OracleDbType, object>[] { arg1, arg2, arg3 });
+            return this.baseReposetory.RunDbRequest("Insert_Book_Comment", mustRespond: false, args: new Tuple<string, OracleDbType, object>[] { arg1, arg2, arg3 });
         }
     }
 }

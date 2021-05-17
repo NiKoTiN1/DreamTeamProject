@@ -32,7 +32,7 @@ namespace DreamTeamProject.Services.Services
                 {
                     Id = Convert.ToInt32(dbResult.OutElements.ElementAt(i)),
                     Name = dbResult.OutElements.ElementAt(i + 1).ToString(),
-                    NumberOfPages = Convert.ToInt32(dbResult.OutElements.ElementAt(i + 2)),
+                    NumberOfPages = dbResult.OutElements.ElementAt(i + 2).ToString(),
                     Price = Convert.ToInt32(dbResult.OutElements.ElementAt(i + 3)),
                     BookCount = Convert.ToInt32(dbResult.OutElements.ElementAt(i + 4)),
                     Author = new Author()
@@ -69,7 +69,7 @@ namespace DreamTeamProject.Services.Services
                 {
                     Id = Convert.ToInt32(dbResult.OutElements.ElementAt(i)),
                     Name = dbResult.OutElements.ElementAt(i + 1).ToString(),
-                    NumberOfPages = Convert.ToInt32(dbResult.OutElements.ElementAt(i + 2)),
+                    NumberOfPages = dbResult.OutElements.ElementAt(i + 2).ToString(),
                     Price = Convert.ToInt32(dbResult.OutElements.ElementAt(i + 3)),
                     BookCount = Convert.ToInt32(dbResult.OutElements.ElementAt(i + 4)),
                     Author = new Author()
@@ -106,7 +106,7 @@ namespace DreamTeamProject.Services.Services
                 {
                     Id = Convert.ToInt32(dbResult.OutElements.ElementAt(i)),
                     Name = dbResult.OutElements.ElementAt(i + 1).ToString(),
-                    NumberOfPages = Convert.ToInt32(dbResult.OutElements.ElementAt(i + 2)),
+                    NumberOfPages = dbResult.OutElements.ElementAt(i + 2).ToString(),
                     Price = Convert.ToInt32(dbResult.OutElements.ElementAt(i + 3)),
                     BookCount = Convert.ToInt32(dbResult.OutElements.ElementAt(i + 4)),
                     Author = new Author()
@@ -143,7 +143,7 @@ namespace DreamTeamProject.Services.Services
                 {
                     Id = Convert.ToInt32(dbResult.OutElements.ElementAt(i)),
                     Name = dbResult.OutElements.ElementAt(i + 1).ToString(),
-                    NumberOfPages = Convert.ToInt32(dbResult.OutElements.ElementAt(i + 2)),
+                    NumberOfPages = dbResult.OutElements.ElementAt(i + 2).ToString(),
                     Price = Convert.ToInt32(dbResult.OutElements.ElementAt(i + 3)),
                     BookCount = Convert.ToInt32(dbResult.OutElements.ElementAt(i + 4)),
                     Author = new Author()
@@ -193,7 +193,7 @@ namespace DreamTeamProject.Services.Services
                 {
                     Id = Convert.ToInt32(dbResult.OutElements.ElementAt(0)),
                     Name = dbResult.OutElements.ElementAt(1).ToString(),
-                    NumberOfPages = Convert.ToInt32(dbResult.OutElements.ElementAt(2)),
+                    NumberOfPages = dbResult.OutElements.ElementAt(2).ToString(),
                     Price = Convert.ToInt32(dbResult.OutElements.ElementAt(3)),
                     BookCount = Convert.ToInt32(dbResult.OutElements.ElementAt(4)),
                     Author = new Author()
@@ -218,17 +218,16 @@ namespace DreamTeamProject.Services.Services
             {
                 return null;
             }
-            for (int i = 0; i < commentDbResult.OutElements.Count; i++)
+            for (int i = 0; i < commentDbResult.OutElements.Count; i+=4)
             {
                 Comment comment = new Comment()
                 {
                     Id = Convert.ToInt32(commentDbResult.OutElements.ElementAt(i)),
-                    CommentId = Convert.ToInt32(commentDbResult.OutElements.ElementAt(i + 1)),
+                    Context = commentDbResult.OutElements.ElementAt(i + 1).ToString(),
                     Customer = new User()
                     {
                         UserId = Convert.ToInt32(commentDbResult.OutElements.ElementAt(i + 2))
                     },
-                    Context = commentDbResult.OutElements.ElementAt(i + 3).ToString()
                 };
                 model.Comments.Add(comment);
             }

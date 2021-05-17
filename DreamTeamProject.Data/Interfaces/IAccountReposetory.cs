@@ -7,7 +7,7 @@ namespace DreamTeamProject.Data.Interfaces
 {
     public interface IAccountReposetory
     {
-        public DbOutput Registration(Customer customer, string password);
+        public DbOutput Registration(string nickname, string email, string password);
         public DbOutput Login(string email, string password);
         public DbOutput GetUser(int userId);
         public DbOutput ChangeRole(int userId, int roleId);

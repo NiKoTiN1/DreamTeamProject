@@ -43,17 +43,16 @@ namespace DreamTeamProject.Services.Services
                 UserId = Convert.ToInt32(dbOut.OutElements.ElementAt(0)),
                 Email = dbOut.OutElements.ElementAt(1).ToString(),
                 SurName = dbOut.OutElements.ElementAt(2).ToString(),
-                Phone = dbOut.OutElements.ElementAt(3).ToString(),
                 UserRole = new Role()
                 {
-                    Id = Convert.ToInt32(dbOut.OutElements.ElementAt(4)),
-                    Name = dbOut.OutElements.ElementAt(5).ToString()
+                    Id = Convert.ToInt32(dbOut.OutElements.ElementAt(3)),
+                    Name = dbOut.OutElements.ElementAt(4).ToString()
                 }
             };
             return user;
         }
 
-        public string Registration(Customer customer, string password)
+        public string Registration(string nickname, string email, string password)
         {
             if (string.IsNullOrEmpty(password))
             {
@@ -63,7 +62,7 @@ namespace DreamTeamProject.Services.Services
             {
                 return "Password length cannot be less then 8";
             }
-            DbOutput registerResult = this.accountRepository.Registration(customer, password);
+            DbOutput registerResult = this.accountRepository.Registration(nickname, email, password);
             if (registerResult.Result == DbResult.Faild)
             {
                 return registerResult.ErrorMessage = registerResult.ErrorMessage.Substring(0, 1).ToUpper() + registerResult.ErrorMessage.Substring(1, registerResult.ErrorMessage.Length - 1).ToLower();
