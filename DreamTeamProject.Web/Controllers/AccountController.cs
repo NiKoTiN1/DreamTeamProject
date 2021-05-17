@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace DreamTeamProject.Web.Controllers
 {
+    [Route("{controllerName}")]
     public class AccountController : Controller
     {
         public AccountController(IAccountService accountService)
@@ -69,7 +70,7 @@ namespace DreamTeamProject.Web.Controllers
                 var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
                 User user = this.accountService.GetUser(userId);
-                return RedirectToAction("AllBooks", "Books");
+                return RedirectToAction("all", "Books");
             }
             catch (Exception ex)
             {

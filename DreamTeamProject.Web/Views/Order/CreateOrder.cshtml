@@ -1,1 +1,11 @@
-﻿
+﻿@model AddOrderViewModel
+
+<form method="post">
+    <input placeholder="Id книги" type="number" asp-for="BookId" />
+    <br />
+    <input placeholder="Адрес" type="text" asp-for="Address" />
+    <br />
+    <input placeholder="Метод оплаты" type="text" asp-for="PaymentMethod" />
+    <br />
+    <input type="submit" value="Добавить" />
+</form>

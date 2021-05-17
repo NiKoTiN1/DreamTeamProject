@@ -1,1 +1,54 @@
-﻿@model List<Customer> 
+﻿@model List<Customer>
+
+<p>
+    Список пользователей
+</p>
+
+<table class="table sticky-table">
+    <thead>
+        <tr>
+            <th class="th-header">
+                №
+            </th>
+            <th class="th-header">
+                Имя
+            </th>
+            <th class="th-header">
+                Фамилия
+            </th>
+            <th class="th-header">
+                E-mail
+            <th class="th-header">
+                Телефон
+            </th>
+            <th class="th-header">
+                Роль
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Customer customer in Model)
+        {
+        <tr class="table-row">
+            <th style="vertical-align: middle;">
+                @customer.UserId
+            </th>
+            <th style="vertical-align: middle;">
+                @customer.Name
+            </th>
+            <th style="vertical-align: middle;">
+                @customer.SurName
+            </th>
+            <th style="vertical-align: middle;">
+                @customer.Email
+            </th>
+            <th style="vertical-align: middle;">
+                @customer.Phone
+            </th>
+            <th style="vertical-align: middle;">
+                @customer.UserRole.Name
+            </th>
+        </tr>
+        }
+    </tbody>
+</table>

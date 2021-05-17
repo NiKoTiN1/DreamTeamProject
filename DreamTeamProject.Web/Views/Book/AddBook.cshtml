@@ -1,1 +1,23 @@
-﻿
+﻿@model Book
+
+<p>
+    Добавить книгу
+</p>
+
+<form method="post">
+    <input type="text" asp-for="Name" placeholder="Название" />
+    <br />
+    <input type="text" asp-for="NumberOfPages" placeholder="Кол-во страниц" />
+    <br />
+    <input type="text" asp-for="Price" placeholder="Стоимость" />
+    <br />
+    <input type="text" asp-for="BookCount" placeholder="Осталось на складе" />
+    <br />
+    <input type="text" asp-for="Author.UserId" placeholder="Номер автора" />
+    <br />
+    <input type="text" asp-for="Genere.Id" placeholder="Номер жанра" />
+    <br />
+    <input type="text" asp-for="PublishingHouse.Id" placeholder="Номер издательства" />
+    <br />
+    <input type="submit" value="Добавить" />
+</form>

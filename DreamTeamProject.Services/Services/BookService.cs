@@ -238,7 +238,7 @@ namespace DreamTeamProject.Services.Services
         public bool AddBookComment(string context, int userId, int bookId)
         {
             var dbResult = this.bookReposetory.AddBookComment(context, userId, bookId);
-            return dbResult.Result == DbResult.Successed
+            return dbResult.Result == DbResult.Successed;
         }
     }
 }

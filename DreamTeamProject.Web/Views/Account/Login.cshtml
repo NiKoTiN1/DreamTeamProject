@@ -1,1 +1,18 @@
-﻿
+﻿@using DreamTeamProject.ViewModels;
+@using System.Security.Claims;
+@model LoginViewModel;
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        @User.Claims.Where(claim => claim.Type == ClaimsIdentity.DefaultNameClaimType).First().Value
+    </p>
+}
+
+<div>
+    <form asp-action="login-post" method="post">
+        <input asp-for="Email" placeholder="Email" type="text" />
+        <input asp-for="Password" placeholder="Password" type="password" />
+        <input type="submit" value="Confirm"/>
+    </form>
+</div>

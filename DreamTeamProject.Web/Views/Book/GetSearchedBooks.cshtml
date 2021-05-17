@@ -1,1 +1,37 @@
-﻿
+﻿@model SearchViewModel
+
+@{
+    List<Book> searchedBooks = null;
+    if (Model.SearchedByAuthor != null)
+    {
+        searchedBooks = Model.SearchedByAuthor;
+    }
+    else if (Model.SearchedByBookName != null)
+    {
+        searchedBooks = Model.SearchedByBookName;
+    }
+    else if (Model.SearchedByGenere != null)
+    {
+        searchedBooks = Model.SearchedByGenere;
+    }
+}
+
+@foreach (Book book in searchedBooks)
+{
+    <p>
+        Навание книги: @book.Name
+    </p>
+    <p>
+        Автор: @book.Author.Name
+    </p>
+    <p>
+        Жанр: @book.Genere.Name
+    </p>
+    <p>
+        Издательство: @book.PublishingHouse.Name
+    </p>
+    <p>
+        Кол-во страниц: @book.NumberOfPages
+    </p>
+    <hr />
+}
