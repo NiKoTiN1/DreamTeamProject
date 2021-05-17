@@ -18,11 +18,12 @@
             </th>
             <th class="th-header">
                 E-mail
-            <th class="th-header">
-                Телефон
             </th>
             <th class="th-header">
-                Роль
+                Role
+            </th>
+            <th class="th-header">
+                Action
             </th>
         </tr>
     </thead>
@@ -43,11 +44,18 @@
                 @customer.Email
             </th>
             <th style="vertical-align: middle;">
-                @customer.Phone
-            </th>
-            <th style="vertical-align: middle;">
                 @customer.UserRole.Name
             </th>
+            @if (customer.UserRole.Id == 0)
+            {
+                <th style="vertical-align: middle;">
+                    <form asp-action="change-role" method="post">
+                        <input name="Id" value="@customer.UserId" hidden/>
+                        <input name="RoleId" value="1" hidden/>
+                        <button type="submit">Change to Admin</button>
+                    </form>
+                </th>
+            }
         </tr>
         }
     </tbody>

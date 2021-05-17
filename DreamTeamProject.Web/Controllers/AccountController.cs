@@ -106,7 +106,8 @@ namespace DreamTeamProject.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult ChangeRole([FromForm] ChangeRoleViewModel model)
+        [Route("change-role")]
+        public IActionResult ChangeRole(ChangeRoleViewModel model)
         {
             Claim userIdClaim = HttpContext.User.Identities.First().Claims.First();
             if (userIdClaim.Value == null)

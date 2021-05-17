@@ -92,19 +92,17 @@ namespace DreamTeamProject.Services.Services
             }
 
             List<Customer> users = new List<Customer>();
-            for (int i = 0; i < dbOut.OutElements.Count; i += 7)
+            for (int i = 0; i < dbOut.OutElements.Count; i += 5)
             {
                 var user = new Customer()
                 {
                     UserId = Convert.ToInt32(dbOut.OutElements.ElementAt(i)),
                     Email = dbOut.OutElements.ElementAt(i + 1).ToString(),
                     SurName = dbOut.OutElements.ElementAt(i + 2).ToString(),
-                    Name = dbOut.OutElements.ElementAt(i + 3).ToString(),
-                    Phone = dbOut.OutElements.ElementAt(i + 4).ToString(),
                     UserRole = new Role()
                     {
-                        Id = Convert.ToInt32(dbOut.OutElements.ElementAt(i + 5)),
-                        Name = dbOut.OutElements.ElementAt(i + 6).ToString()
+                        Id = Convert.ToInt32(dbOut.OutElements.ElementAt(i + 3)),
+                        Name = dbOut.OutElements.ElementAt(i + 4).ToString()
                     }
                 };
                 users.Add(user);
